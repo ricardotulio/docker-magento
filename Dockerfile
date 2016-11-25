@@ -31,6 +31,9 @@ RUN apt-get clean && \
 
 RUN ["a2enmod", "php5"]
 
+RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
+
 ADD ./etc/apache2/sites-available/default /etc/apache2/sites-available/default
 
 EXPOSE 80
