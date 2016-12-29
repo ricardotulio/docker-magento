@@ -30,6 +30,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ["a2enmod", "php5"]
+RUN ["a2enmod", "rewrite"]
 
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
