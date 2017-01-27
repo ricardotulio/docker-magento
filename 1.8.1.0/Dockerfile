@@ -1,5 +1,5 @@
 FROM ubuntu:12.04
-MAINTAINER Ricardo Ledo <your.email@here>
+MAINTAINER Ricardo Ledo <ledo.tulio@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -52,7 +52,7 @@ RUN groupmod -g 1000 www-data
 
 ADD ./etc/apache2/sites-available/default /etc/apache2/sites-available/default
 
-RUN mkdir /docker-magento/
+RUN mkdir /docker-magento/ /docker-magento-modules/
 
 ADD ./magento-1.8.1.0.zip /docker-magento/
 
@@ -64,6 +64,9 @@ RUN rm /var/www/index.html && \
     rm -rf magento magento-1.8.1.0.zip
 
 ADD ./usr/local/bin/ /usr/local/bin/
+
+RUN composer global require phpunit/phpunit
+RUN ln -s /root/.composer/vendor/bin/phpunit /usr/local/bin/phpunit
 
 EXPOSE 80
 
