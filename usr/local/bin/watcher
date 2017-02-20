@@ -1,0 +1,36 @@
+#!/bin/bash
+
+WATCHED_DIR=$1
+MIRROR_DIR=$2
+
+cp -a $WATCHED_DIR/* $MIRROR_DIR/
+
+inotifywait -r -m -e create,modify,close_write,moved_to,delete,moved_from --format '%:e %w%f' $WATCHED_DIR | while read line
+do
+ACTION=$(echo $line | awk -F" " '{print $1}')
+OBJECT=$(echo $line | awk -F" " '{print $2}')
+TO=$(echo $OBJECT | sed -e "s|^$WATCHED_DIR|$MIRROR_DIR|g")
+
+case $ACTION in
+  'CREATE')
+    ;&
+  'CREATE:ISDIR')
+    ;&
+  'CLOSE_WRITE:CLOSE')
+    ;&
+  'MOVED_TO')
+    ;&
+  'MOVED_TO:ISDIR')
+    cp -a $OBJECT $TO
+    ;;
+  'MOVED_FROM')
+    ;&
+  'MOVED_FROM:ISDIR')
+    ;&
+  'DELETE')
+    ;&
+  'DELETE:ISDIR')
+    rm -rf $TO
+    ;;
+  esac
+done
