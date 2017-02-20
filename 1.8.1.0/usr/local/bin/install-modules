@@ -1,5 +1,0 @@
-#!/bin/bash
-
-for module in $(ls /docker-magento-modules); do
-    cp -a /docker-magento-modules/$module/* /var/www
-done
