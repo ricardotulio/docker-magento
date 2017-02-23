@@ -42,6 +42,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     wget \
+    mysql-client \
     inotify-tools
 
 RUN apt-get clean && \
@@ -55,14 +56,8 @@ RUN groupmod -g 1000 www-data
 
 ADD ./etc/apache2/sites-available/default /etc/apache2/sites-available/default
 
-RUN mkdir /docker-magento/ /module/
-
-ADD ./usr/local/bin/ /usr/local/bin/
-
-RUN composer global require phpunit/phpunit
-RUN ln -s /root/.composer/vendor/bin/phpunit /usr/local/bin/phpunit
+ADD ./opt/docker/ /opt/docker/
 
 EXPOSE 80
 
-CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
-ENTRYPOINT ["/usr/local/bin/watcher", "/module/", "/var/www/"]
+ENTRYPOINT ["/opt/docker/scripts/start"]
