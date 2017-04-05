@@ -3,7 +3,7 @@
 MAGENTO_VERSION=$1
 
 cd /tmp
-wget -O mage-install.sh http://sys.sonassi.com/mage-install.sh
+wget -O mage-install.sh https://raw.githubusercontent.com/sonassi/magento-bash-scripts/master/mage-install.sh
 chmod +x mage-install.sh
 
 ./mage-install.sh -d -r $MAGENTO_VERSION
