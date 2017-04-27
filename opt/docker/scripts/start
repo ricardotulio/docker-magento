@@ -10,4 +10,6 @@ fi
 
 tail -f /var/log/apache2/error.log > /dev/stdout &
 
+chmod -R 777 /var/www/
+
 /opt/docker/bin/watcher /opt/docker/magento/module/ /var/www/ > /dev/null 2>&1
